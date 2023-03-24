@@ -1,17 +1,18 @@
 interface IChessPiece {
-  currentPosition: string
   pieceName: string
 }
 
 export class ChessPiece {
-
-  private chesspiece: IChessPiece
+  pieceName: string
 
   constructor(chesspiece: IChessPiece) {
-    this.chesspiece = chesspiece
+    this.pieceName = chesspiece.pieceName
   }
 
-  public get piece():IChessPiece {
-    return this.chesspiece
+  private is_valid_move(chessPiece: IChessPiece) {
+    switch(chessPiece.pieceName) {
+      case 'pawn':
+
+    }
   }
 }
