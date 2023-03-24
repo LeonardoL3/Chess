@@ -1,8 +1,9 @@
-import { WHITE } from "@/constants/CHESS_PIECES_POSITIONS"
+import { WHITE, BLACK } from "@/constants/CHESS_PIECES_POSITIONS"
+import { ChessPiece } from "./ChessPiece"
 
 interface IBoard {
   position: string
-  pieceName: string | null
+  pieceInfo?: ChessPiece | null
 }
 
 export class ChessBoard {
@@ -13,7 +14,7 @@ export class ChessBoard {
     for (let row = 0; row < 8; row++){
       this.chessboard[row] = []
       for (let col = 0; col < 8; col++){
-        this.chessboard[row][col] = this.fill_up_initial_board(`${this.chessboardLetters[col]}${row+1}`)
+        this.chessboard[row][col] = {position: this.fill_up_position(row, col)}
       }
     }    
   }
@@ -22,13 +23,17 @@ export class ChessBoard {
     return this.chessboard
   }
 
-  private fill_up_initial_board(position: string): IBoard {
-    return {position, pieceName: null}
+  private fill_up_position(row:number, col: number) {
+    return `${this.chessboardLetters[col]}${row+1}`
   }
 
   public populate() {
     Object.entries(WHITE).forEach(([key, value]) => {
-      this.chessboard[value.row][value.col].pieceName = key
+      this.chessboard[value.row][value.col].pieceInfo = new ChessPiece({currentPosition: this.fill_up_position(value.row, value.col), pieceName: key})
+    })
+
+    Object.entries(BLACK).forEach(([key, value]) => {
+      this.chessboard[value.row][value.col].pieceInfo = new ChessPiece({currentPosition: this.fill_up_position(value.row, value.col), pieceName: key})
     })
   }
 }

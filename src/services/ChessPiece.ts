@@ -1,12 +1,17 @@
+interface IChessPiece {
+  currentPosition: string
+  pieceName: string
+}
+
 export class ChessPiece {
 
-  private chesspiece: {name: string}
+  private chesspiece: IChessPiece
 
-  constructor(chesspiece: {name: string}) {
+  constructor(chesspiece: IChessPiece) {
     this.chesspiece = chesspiece
   }
 
-  public get piece(): {name: string} {
+  public get piece():IChessPiece {
     return this.chesspiece
   }
 }

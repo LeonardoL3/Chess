@@ -8,6 +8,14 @@ export const WHITE = {
   _rook: {row: 0, col: 5},
   _knight: {row: 0, col: 6},
   _bishop: {row: 0, col: 7},
+  pawn1: {row: 1, col: 0},
+  pawn2: {row: 1, col: 1},
+  pawn3: {row: 1, col: 2},
+  pawn4: {row: 1, col: 3},
+  pawn5: {row: 1, col: 4},
+  pawn6: {row: 1, col: 5},
+  pawn7: {row: 1, col: 6},
+  pawn8: {row: 1, col: 7},
 }
 
 export const BLACK = {
@@ -16,7 +24,15 @@ export const BLACK = {
   bishop: {row: 7, col: 2},
   king: {row: 7, col: 3},
   queen: {row: 7, col: 4},
-  _rook: {row: 7, col: 0},
-  _knight: {row: 7, col: 1},
-  _bishop: {row: 7, col: 2},
+  _rook: {row: 7, col: 5},
+  _knight: {row: 7, col: 6},
+  _bishop: {row: 7, col: 7},
+  pawn1: {row: 6, col: 0},
+  pawn2: {row: 6, col: 1},
+  pawn3: {row: 6, col: 2},
+  pawn4: {row: 6, col: 3},
+  pawn5: {row: 6, col: 4},
+  pawn6: {row: 6, col: 5},
+  pawn7: {row: 6, col: 6},
+  pawn8: {row: 6, col: 7},
 }
