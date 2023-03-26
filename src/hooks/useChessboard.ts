@@ -1,4 +1,4 @@
-import { moves } from "@/constants/CHESS_PIECES_MOVES"
+import { moves, move_teste } from "@/constants/CHESS_PIECES_MOVES"
 import { BLACK, WHITE } from "@/constants/CHESS_PIECES_POSITIONS"
 import { fill_up_position } from "@/utils/fill_up_position"
 import { get_indexes_by_position } from "@/utils/get_indexes_by_position"
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 export type IPieceInfo = {
   pieceName: 'pawn' | 'rook' | 'knight' | 'bishop' | 'king' | 'queen'
   color: 'white' | 'black'
+  checkMove?: () => void
 }
 
 export interface IBoard {
@@ -33,11 +34,11 @@ export function useChessboard() {
     } 
 
     WHITE.forEach((value) => {
-      board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'white'}
+      board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'white', checkMove: move_teste[value.pieceName as 'pawn']}
     })
 
     BLACK.forEach((value) => {
-     board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'black' }
+     board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'black', checkMove: move_teste[value.pieceName as 'pawn'] }
     })
 
 
@@ -78,7 +79,10 @@ export function useChessboard() {
       return row.map((col, colIdx) => {
         let finalObj = {...col}
         currentMove.forEach(move => {
-          if (rowIdx === mountMove(positionIndexes.row, move.axios, move.row) && colIdx === mountMove(positionIndexes.col, move.axios, move.col)) {
+          // if (rowIdx === mountMove(positionIndexes.row, move.axios, move.row) && colIdx === mountMove(positionIndexes.col, move.axios, move.col)) {
+          //   finalObj = {...col, isPossibleMove: true}
+          // }
+          if (rowIdx === move.row && colIdx === move.col) {
             finalObj = {...col, isPossibleMove: true}
           }
         })
