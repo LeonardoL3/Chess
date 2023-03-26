@@ -1,17 +1,15 @@
 import { WHITE, BLACK } from "@/constants/CHESS_PIECES_POSITIONS"
 import { ChessPiece } from "./ChessPiece"
 
-interface IBoard {
+export interface IBoard {
   position: string
   pieceInfo?: ChessPiece | null
 }
 
 export class ChessBoard {
   private chessboard: IBoard[][] = []
-  private chessboardLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
   constructor(chessboard?: IBoard[][]){
-
     if (!chessboard) {
       for (let row = 0; row < 8; row++){
         this.chessboard[row] = []
@@ -30,7 +28,7 @@ export class ChessBoard {
   }
 
   private fill_up_position(row:number, col: number) {
-    return `${this.chessboardLetters[col]}${row+1}`
+    return `${String.fromCharCode(65+col)}${row+1}`
   }
 
   public populate() {
@@ -51,8 +49,13 @@ export class ChessBoard {
     // })
   }
 
-  public move(oldPosition: {row: number, col: number}, newPosition: {row: number, col:number}) {
-    this.chessboard[newPosition.row][newPosition.col].pieceInfo = this.chessboard[oldPosition.row][oldPosition.col].pieceInfo
-    this.chessboard[oldPosition.row][oldPosition.col].pieceInfo = null
+  //oldPosition: {row: number, col: number}, newPosition: {row: number, col:number}
+  public move(board: IBoard) {
+    if (!board.pieceInfo) return null
+    const indexes = board.pieceInfo.get_position_by_indexes(board.position)
+    const valid_moves = board.pieceInfo?.is_valid_move(indexes)
+    console.log('valid_moves', valid_moves)
+    // this.chessboard[newPosition.row][newPosition.col].pieceInfo = this.chessboard[oldPosition.row][oldPosition.col].pieceInfo
+    // this.chessboard[oldPosition.row][oldPosition.col].pieceInfo = null
   }
 }
