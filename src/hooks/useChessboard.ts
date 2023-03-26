@@ -62,15 +62,15 @@ export function useChessboard() {
    
     setTurn(prevTurn => prevTurn === 'white' ? 'black' : 'white')
     setIsMovingMode(false)
-    const x = resetPossibleMoves(newChessboard)
-    console.log('xxx',x)
-    setChessboard(x)
+    setChessboard(resetPossibleMoves(newChessboard))
   }
 
   function validate_moves(board: IBoard) {
     if(!board.pieceInfo || board.pieceInfo?.color !== turn) return null
+    console.log('bom dia meu pais')
     const positionIndexes = get_indexes_by_position(board.position)
-    const allMoves = moves(board.pieceInfo)
+    const allMoves = moves(board.pieceInfo, chessboard, positionIndexes)
+    console.log('pode pa', board)
     const currentMove = allMoves[board.pieceInfo.pieceName as 'pawn']()
     
     const newChessboard = [...chessboard]
@@ -92,6 +92,7 @@ export function useChessboard() {
   }
 
   function handlePieceClick(board: IBoard){
+    console.log('chegando la', isMovingMode, board.isPossibleMove)
     if (isMovingMode && board.isPossibleMove){
       move(board.position)
     } else {
