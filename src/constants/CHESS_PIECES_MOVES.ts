@@ -20,8 +20,6 @@ export function moves(pieceInfo: IPieceInfo, chessboard: IBoard[][], positionInd
     let shouldKeepUpdatingColUp = true
     let shouldKeepUpdatingColDown = true
     for (let row = positionIndexes.row; row < chessboard.length; row++) {
-      
-
     if(row+1 <= 7 && shouldKeepUpdatingRowUp) {
       if (!chessboard[row+1]?.[positionIndexes.col].pieceInfo) {
         finalArray.push({row: row+1, col: positionIndexes.col, axios: '+'})
