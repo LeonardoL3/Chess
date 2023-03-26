@@ -78,14 +78,12 @@ export function useChessboard() {
     const updatedChess = newChessboard.map((row, rowIdx) => {
       return row.map((col, colIdx) => {
         let finalObj = {...col}
-        currentMove.forEach(move => {
-          // if (rowIdx === mountMove(positionIndexes.row, move.axios, move.row) && colIdx === mountMove(positionIndexes.col, move.axios, move.col)) {
-          //   finalObj = {...col, isPossibleMove: true}
-          // }
-          if (rowIdx === move.row && colIdx === move.col) {
+        for (let move = 0; move < currentMove.length; move++) {
+          if (rowIdx === currentMove[move].row && colIdx === currentMove[move].col) {
             finalObj = {...col, isPossibleMove: true}
+            break
           }
-        })
+        }
         return finalObj
       })
     })
