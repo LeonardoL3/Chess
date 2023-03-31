@@ -4,9 +4,7 @@ import { IBoard, useChessboard } from "@/hooks/useChessboard"
 import styles from './chess.module.css'
 
 export default function Chess() {
-  const { chessboard, move, currentSelectedPiece, handlePieceClick } = useChessboard()
-
-  console.log('bem 10', chessboard)
+  const { chessboard, handlePieceClick } = useChessboard()
 
   return (
     <div className={styles.container}>

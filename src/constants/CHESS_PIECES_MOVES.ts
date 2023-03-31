@@ -10,7 +10,6 @@ export function moves(pieceInfo: IPieceInfo, chessboard: IBoard[][], positionInd
   const axios = pieceInfo.color === 'white' ? '+' : '-'
   const isFirstMove = true
 
-console.log('ai', positionIndexes)
   function pawn() {
     if (isFirstMove && !chessboard[mountMove(positionIndexes.row, axios, 1)][positionIndexes.col].pieceInfo) {
       return [{row: mountMove(positionIndexes.row, axios, 1), col: positionIndexes.col, axios}, {row: mountMove(positionIndexes.row, axios, 2), col: positionIndexes.col, axios}]
@@ -105,7 +104,7 @@ console.log('ai', positionIndexes)
     }
 
     let initialCol = positionIndexes.col
-    for(let row = positionIndexes.row; row < chessboard.length; row--) {
+    for(let row = positionIndexes.row; row >= 0; row--) {
       if(row-1 >= 0 && initialCol-1 >= 0) {
         if (!chessboard[row-1]?.[initialCol-1].pieceInfo) {
           finalArray.push({row: row-1, col: initialCol-1})
@@ -152,9 +151,36 @@ console.log('ai', positionIndexes)
 
   function knight(){}
 
-  function queen(){}
+  function queen(){
+    const finalArray = [...bishop(), ...rook()]
+    
 
-  function king(){}
+    console.log('pe de pano', finalArray)
+
+    return finalArray
+  }
+
+  function king(){
+    const { row, col } = positionIndexes
+    const bishop_first_moves = bishop().filter(b => {
+      if (b.row === row+1 || b.row === row-1 || b.col === col+1 || b.col === col-1) {
+        return b
+      } 
+    })
+
+    const rook_first_moves = rook().filter(r => {
+      if (r.row === row+1 || r.row === row-1 || r.col === col+1 || r.col === col-1) {
+        return r
+      } 
+    })
+
+    const finalArray = [
+      ...bishop_first_moves,
+      ...rook_first_moves
+    ]
+
+    return finalArray
+  }
 
   return {
     pawn,
