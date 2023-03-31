@@ -1,4 +1,4 @@
-import { moves, move_teste } from "@/constants/CHESS_PIECES_MOVES"
+import { moves } from "@/constants/CHESS_PIECES_MOVES"
 import { BLACK, WHITE } from "@/constants/CHESS_PIECES_POSITIONS"
 import { fill_up_position } from "@/utils/fill_up_position"
 import { get_indexes_by_position } from "@/utils/get_indexes_by_position"
@@ -19,7 +19,7 @@ export interface IBoard {
 
 export function useChessboard() {
   const [chessboard, setChessboard] = useState<IBoard[][]>([])
-  const [currentSelectedPiece, setCurrentSelectedPiece] = useState<IBoard | null>(null)
+  const [currentSelectedPiece, setCurrentSelectedPiece] = useState<IBoard | undefined>(undefined)
   const [turn, setTurn] = useState<'white' | 'black'>('white')
   const [rounds, setRound] = useState({white: 0, black: 0})
   const [isMovingMode, setIsMovingMode] = useState(false)
@@ -34,13 +34,13 @@ export function useChessboard() {
     } 
 
     WHITE.forEach((value) => {
-      board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'white', checkMove: move_teste[value.pieceName as 'pawn']}
+      board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'white'}
     })
 
     board[3][3].pieceInfo = { pieceName: 'king', color: 'white'}
 
     BLACK.forEach((value) => {
-     board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'black', checkMove: move_teste[value.pieceName as 'pawn'] }
+     board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'black' }
     })
 
 
@@ -48,8 +48,7 @@ export function useChessboard() {
   }
 
   function resetPossibleMoves(newChessboard: IBoard[][]){
-    console.log('poxa')
-    setCurrentSelectedPiece(null)
+    setCurrentSelectedPiece(undefined)
     return newChessboard.map(row => {
       return row.map(col => {
         return {...col, isPossibleMove: false}
@@ -73,8 +72,6 @@ export function useChessboard() {
       })
     })
     const resetedMoves = resetPossibleMoves(chessboardToMove)
-  //  newChessboard[oldIndexes.row][oldIndexes.col].pieceInfo = null
-  //  newChessboard[indexes.row][indexes.col].pieceInfo = currentSelectedPiece?.pieceInfo
    
     setTurn(prevTurn => prevTurn === 'white' ? 'black' : 'white')
     setIsMovingMode(false)
@@ -83,8 +80,7 @@ export function useChessboard() {
 
   function validate_moves(board: IBoard) {
     if(!board.pieceInfo || board.pieceInfo?.color !== turn) return null
-    const positionIndexes = get_indexes_by_position(board.position)
-    const allMoves = moves(board.pieceInfo, chessboard, positionIndexes)
+    const allMoves = moves(board, chessboard)
     const currentMove = allMoves[board.pieceInfo.pieceName as 'pawn']()
     
     const newChessboard = [...chessboard]

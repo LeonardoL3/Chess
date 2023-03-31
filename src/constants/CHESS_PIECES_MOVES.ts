@@ -1,4 +1,5 @@
 import { IBoard, IPieceInfo } from "@/hooks/useChessboard"
+import { get_indexes_by_position } from "@/utils/get_indexes_by_position"
 import { mountMove } from "@/utils/mountMove"
 
 interface Indexes {
@@ -6,16 +7,23 @@ interface Indexes {
   col: number
 }
 
-export function moves(pieceInfo: IPieceInfo, chessboard: IBoard[][], positionIndexes: {row: number, col: number}) {
-  const axios = pieceInfo.color === 'white' ? '+' : '-'
+export function moves(selectedBoard: IBoard, chessboard: IBoard[][]) {
+  const axios = selectedBoard.pieceInfo?.color === 'white' ? '+' : '-'
+  const positionIndexes = get_indexes_by_position(selectedBoard.position)
   const isFirstMove = true
 
+  
   function pawn() {
-    if (isFirstMove && !chessboard[mountMove(positionIndexes.row, axios, 1)][positionIndexes.col].pieceInfo) {
-      return [{row: mountMove(positionIndexes.row, axios, 1), col: positionIndexes.col, axios}, {row: mountMove(positionIndexes.row, axios, 2), col: positionIndexes.col, axios}]
+    console.log('surpreendemes')
+    const finalArray = [] as Indexes[]
+    if (isFirstMove) {
+      [1, 2].forEach(num => {
+        if(!chessboard[mountMove(positionIndexes.row, axios, num)][positionIndexes.col]?.pieceInfo) finalArray.push({row: mountMove(positionIndexes.row, axios, num), col: positionIndexes.col})
+      })
     } else {
-      return []
+      console.log('rodou')
     }
+    return finalArray
   }
 
   function rook(){
@@ -152,7 +160,7 @@ export function moves(pieceInfo: IPieceInfo, chessboard: IBoard[][], positionInd
   function knight(){}
 
   function queen(){
-    const finalArray = [...bishop(), ...rook()]
+    const finalArray = [...bishop(), ...rook()] as Indexes[]
     
 
     console.log('pe de pano', finalArray)
@@ -177,7 +185,7 @@ export function moves(pieceInfo: IPieceInfo, chessboard: IBoard[][], positionInd
     const finalArray = [
       ...bishop_first_moves,
       ...rook_first_moves
-    ]
+    ] as Indexes[]
 
     return finalArray
   }
@@ -191,10 +199,3 @@ export function moves(pieceInfo: IPieceInfo, chessboard: IBoard[][], positionInd
     king
   }
 }
-
-
-
-function pawn(){}
-export const move_teste = {
-  pawn
-} as const
