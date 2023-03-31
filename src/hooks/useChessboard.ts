@@ -15,6 +15,7 @@ export interface IBoard {
   position: string
   pieceInfo?: IPieceInfo | null
   isPossibleMove: boolean
+  isAttackable?: boolean
 }
 
 export function useChessboard() {
@@ -37,8 +38,6 @@ export function useChessboard() {
       board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'white'}
     })
 
-    board[3][3].pieceInfo = { pieceName: 'king', color: 'white'}
-
     BLACK.forEach((value) => {
      board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'black' }
     })
@@ -51,7 +50,7 @@ export function useChessboard() {
     setCurrentSelectedPiece(undefined)
     return newChessboard.map(row => {
       return row.map(col => {
-        return {...col, isPossibleMove: false}
+        return {...col, isPossibleMove: false, isAttackable: false}
       })
     })
   }
@@ -90,7 +89,7 @@ export function useChessboard() {
         let finalObj = {...col}
         for (let move = 0; move < currentMove.length; move++) {
           if (rowIdx === currentMove[move].row && colIdx === currentMove[move].col) {
-            finalObj = {...col, isPossibleMove: true}
+            finalObj = {...col, isPossibleMove: true, isAttackable: currentMove[move]?.mode === 'attackable'}
             break
           }
         }

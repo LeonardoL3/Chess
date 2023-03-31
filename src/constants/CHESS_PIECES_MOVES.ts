@@ -5,6 +5,7 @@ import { mountMove } from "@/utils/mountMove"
 interface Indexes {
   row: number
   col: number
+  mode?: 'movable' | 'attackable'
 }
 
 export function moves(selectedBoard: IBoard, chessboard: IBoard[][]) {
@@ -14,14 +15,12 @@ export function moves(selectedBoard: IBoard, chessboard: IBoard[][]) {
 
   
   function pawn() {
-    console.log('surpreendemes')
     const finalArray = [] as Indexes[]
     if (isFirstMove) {
       [1, 2].forEach(num => {
         if(!chessboard[mountMove(positionIndexes.row, axios, num)][positionIndexes.col]?.pieceInfo) finalArray.push({row: mountMove(positionIndexes.row, axios, num), col: positionIndexes.col})
       })
     } else {
-      console.log('rodou')
     }
     return finalArray
   }
@@ -33,6 +32,11 @@ export function moves(selectedBoard: IBoard, chessboard: IBoard[][]) {
       if(row+1 < chessboard.length) {
         if (!chessboard[row+1]?.[positionIndexes.col].pieceInfo) {
           finalArray.push({row: row+1, col: positionIndexes.col})
+        } else if(chessboard[row+1]?.[positionIndexes.col].pieceInfo) {
+          if(chessboard[row+1]?.[positionIndexes.col].pieceInfo?.color !== selectedBoard.pieceInfo?.color) {
+            finalArray.push({row: row+1, col: positionIndexes.col, mode: 'attackable'})
+          }
+          break
         } else {
           break
         }
@@ -123,48 +127,13 @@ export function moves(selectedBoard: IBoard, chessboard: IBoard[][]) {
       }
     }
 
-    console.log('eu sinto', finalArray)
     return finalArray
-
-    //  for(let row = positionIndexes.row; row >= 0; row--) {
-    //   if(row-1 >= 0) {
-    //     if (!chessboard[row-1]?.[positionIndexes.col].pieceInfo) {
-    //       finalArray.push({row: row-1, col: positionIndexes.col})
-    //     } else {
-    //       break
-    //     }
-    //   }
-    // }
-
-    // for (let col = positionIndexes.col; col < chessboard[positionIndexes.row].length; col++) {
-    //   if (col+1 < chessboard[positionIndexes.row].length) {
-    //     if (!chessboard[positionIndexes.row][col+1]?.pieceInfo) {
-    //       finalArray.push({row: positionIndexes.row, col: col+1})
-    //     } else {
-    //       break
-    //     }
-    //   }
-    // }
-
-    //  for (let col = positionIndexes.col; col >= 0; col--) {
-    //   if (col-1 >= 0) {
-    //     if (!chessboard[positionIndexes.row][col+-1]?.pieceInfo) {
-    //       finalArray.push({row: positionIndexes.row, col: col-1})
-    //     } else {
-    //       break
-    //     }
-    //   }
-    // }
   }
 
   function knight(){}
 
   function queen(){
     const finalArray = [...bishop(), ...rook()] as Indexes[]
-    
-
-    console.log('pe de pano', finalArray)
-
     return finalArray
   }
 

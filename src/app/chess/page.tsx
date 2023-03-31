@@ -2,6 +2,7 @@
 
 import { IBoard, useChessboard } from "@/hooks/useChessboard"
 import styles from './chess.module.css'
+import cn from 'classnames'
 
 export default function Chess() {
   const { chessboard, handlePieceClick } = useChessboard()
@@ -19,7 +20,7 @@ export default function Chess() {
               return (
                 <button 
                   key={idx}
-                  className={`${styles.piece} ${col.isPossibleMove ? styles.movable : ''}`}
+                  className={cn(styles.piece, {[styles.movable]: col.isPossibleMove, [styles.attackable]: col.isAttackable})}
                   style={{backgroundColor: newColor}}
                   onClick={() => handlePieceClick(col)}
                   >
