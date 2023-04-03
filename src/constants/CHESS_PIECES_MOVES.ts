@@ -92,11 +92,16 @@ export function moves(selectedBoard: IBoard, chessboard: IBoard[][]) {
     }
 
     let initialColWithRowGoingDown = positionIndexes.col
+    console.log('complicado', positionIndexes)
     for(let row = positionIndexes.row; row >= 0; row--) {
+      console.log('bah', row, initialColWithRowGoingDown)
       if(row+1 <= 7 && initialColWithRowGoingDown+1 <= 7) {
-        if (!chessboard[row-1]?.[initialColWithRowGoingDown+1].pieceInfo) {
-          finalArray.push({row: row-1, col: initialColWithRowGoingDown+1})
+        console.log('show 2')
+        if (!chessboard[row]?.[initialColWithRowGoingDown+1].pieceInfo) {
+          console.log('break??? 2')
+          finalArray.push({row: row, col: initialColWithRowGoingDown+1})
         } else {
+          console.log('break??? 1')
           break
         }
         initialColWithRowGoingDown++
@@ -127,6 +132,7 @@ export function moves(selectedBoard: IBoard, chessboard: IBoard[][]) {
       }
     }
 
+    console.log('finalArray', finalArray)
     return finalArray
   }
 
