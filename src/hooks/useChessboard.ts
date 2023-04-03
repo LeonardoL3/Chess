@@ -38,6 +38,8 @@ export function useChessboard() {
       board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'white'}
     })
 
+    board[3][4].pieceInfo = { pieceName: 'bishop', color: 'white'}
+
     BLACK.forEach((value) => {
      board[value.row][value.col].pieceInfo = { pieceName: value.pieceName, color: 'black' }
     })

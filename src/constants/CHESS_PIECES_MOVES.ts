@@ -79,60 +79,49 @@ export function moves(selectedBoard: IBoard, chessboard: IBoard[][]) {
   function bishop(){
     const finalArray = [] as Indexes[]
 
-    let initialColGoingUp = positionIndexes.col
-    for(let row = positionIndexes.row; row < chessboard.length; row++) {
-      if(row+1 <= 7 && initialColGoingUp+1 <= 7) {
-        if (!chessboard[row+1]?.[initialColGoingUp+1].pieceInfo) {
-          finalArray.push({row: row+1, col: initialColGoingUp+1})
-        } else {
-          break
-        }
-        initialColGoingUp++
+    let col = 1
+    for (let row = positionIndexes.row+1; row < 8; row++) {
+
+      if (!chessboard[row][positionIndexes.col+col]?.pieceInfo) {
+        finalArray.push({row: row, col: positionIndexes.col+col})
+      } else {
+        break
       }
+      col++
     }
 
-    let initialColWithRowGoingDown = positionIndexes.col
-    console.log('complicado', positionIndexes)
-    for(let row = positionIndexes.row; row >= 0; row--) {
-      console.log('bah', row, initialColWithRowGoingDown)
-      if(row+1 <= 7 && initialColWithRowGoingDown+1 <= 7) {
-        console.log('show 2')
-        if (!chessboard[row]?.[initialColWithRowGoingDown+1].pieceInfo) {
-          console.log('break??? 2')
-          finalArray.push({row: row, col: initialColWithRowGoingDown+1})
-        } else {
-          console.log('break??? 1')
-          break
-        }
-        initialColWithRowGoingDown++
+    let axiosCol = 1
+    for (let row = positionIndexes.row+1; row < 8; row++) {
+
+      if (!chessboard[row][positionIndexes.col-axiosCol]?.pieceInfo) {
+        finalArray.push({row: row, col: positionIndexes.col-axiosCol})
+      }else {
+        break
       }
+      axiosCol++
     }
 
-    let initialColGoingDown = positionIndexes.col
-    for(let row = positionIndexes.row; row < chessboard.length; row++) {
-      if(row+1 <= 7 && initialColGoingDown-1 >= 0) {
-        if (!chessboard[row+1]?.[initialColGoingDown-1].pieceInfo) {
-          finalArray.push({row: row+1, col: initialColGoingDown-1})
-        } else {
-          break
-        }
-        initialColGoingDown--
+    let prow = 1
+    for (let row = positionIndexes.row-1; row >= 0; row--) {
+      if (!chessboard[row][positionIndexes.col+prow]?.pieceInfo) {
+        finalArray.push({row: row, col: positionIndexes.col+prow})
+      } else {
+        break
       }
+      prow++
     }
 
-    let initialCol = positionIndexes.col
-    for(let row = positionIndexes.row; row >= 0; row--) {
-      if(row-1 >= 0 && initialCol-1 >= 0) {
-        if (!chessboard[row-1]?.[initialCol-1].pieceInfo) {
-          finalArray.push({row: row-1, col: initialCol-1})
-        } else {
-          break
-        }
-        initialCol--
+    let nrow = 1
+    for (let row = positionIndexes.row-1; row >= 0; row--) {
+      if (!chessboard[row][positionIndexes.col-nrow]?.pieceInfo) {
+        finalArray.push({row: row, col: positionIndexes.col-nrow})
+      } else {
+        break
       }
+      nrow++
     }
 
-    console.log('finalArray', finalArray)
+
     return finalArray
   }
 
